@@ -1,20 +1,26 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
+
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 import {
-  IdCardLanyard,
+  LayoutDashboard,
   GraduationCap,
-  Hand,
+  ClipboardCheck,
   Settings,
 } from "lucide-react";
 
 function SideNav() {
+  const { user } = useKindeBrowserClient();
 
   const menulist = [
     {
       id: 1,
       name: "Dashboard",
-      icon: IdCardLanyard,
+      icon: LayoutDashboard,
       path: "/dashboard",
     },
     {
@@ -26,7 +32,7 @@ function SideNav() {
     {
       id: 3,
       name: "Attendance",
-      icon: Hand,
+      icon: ClipboardCheck,
       path: "/dashboard/attendance",
     },
     {
@@ -38,33 +44,54 @@ function SideNav() {
   ];
 
   return (
-    <div className="w-64 h-screen border-r shadow-md p-5">
+    <div className="h-screen w-64 border-r bg-white shadow-sm flex flex-col">
 
       {/* Logo */}
-      <div className="flex items-center justify-center mb-6">
+      <div className="h-20 flex items-center justify-center border-b">
         <Image
           src="/logo.svg"
           alt="Logo"
           width={120}
-          height={35}
+          height={40}
           priority
+          className="object-contain"
         />
       </div>
 
-      <hr className="my-4 border-gray-300" />
-
       {/* Menu */}
-      <div className="mt-5 flex flex-col gap-4">
+      <div className="flex-1 p-4 space-y-2">
 
         {menulist.map((item) => (
-          <div
+          <Link
             key={item.id}
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer"
+            href={item.path}
+            className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-100 transition"
           >
             <item.icon size={20} />
-            <span>{item.name}</span>
-          </div>
+            <span className="text-sm font-medium text-gray-700">
+              {item.name}
+            </span>
+          </Link>
         ))}
+
+      </div>
+
+      {/* User Profile (NO EMAIL) */}
+      <div className="border-t p-4 flex items-center gap-3">
+
+        <Image
+          src={user?.picture || "/user.png"}
+          alt="Profile"
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold">
+            {user?.given_name || "User"}
+          </span>
+        </div>
 
       </div>
 
