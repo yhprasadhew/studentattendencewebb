@@ -1,10 +1,13 @@
-import react from "react";
+import SideNav from "./_components/sideNav";
 
-export default function Layout({ children }) {
+function Layout({ children }) {
   return (
     <div>
-      <h1>Dashboard Layout</h1>
-      {children}
+      <div className="w-64 fixed  md:block">
+        <SideNav />
+      </div>
+      <div className="md:ml-64">{children}</div>
     </div>
   );
 }
+export default Layout;

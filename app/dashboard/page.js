@@ -7,7 +7,7 @@ export default function DashboardPage() {
   const { setTheme } = useTheme();
 
   useEffect(() => {
-    setTheme("dark");
+    setTheme("light");
   }, [setTheme]);
 
   return (
